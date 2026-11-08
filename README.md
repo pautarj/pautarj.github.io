@@ -1,7 +1,7 @@
 # PautaRJ Notícias
 
-Site de notícias de polícia, crime, justiça e trânsito de Campos dos Goytacazes e do Norte Fluminense.
+Site: https://pautarj.github.io
 
 - `index.html`: layout do site
-- `noticias.js`: as matérias (atualizado automaticamente pela Redação)
+- `noticias.js`: as matérias (atualizado pela Redação)
 - `fotos/`: imagens das matérias
