@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PautaRJ Notícias — Polícia e Crime em Campos dos Goytacazes</title>
+<meta name="description" content="PautaRJ Notícias: polícia, crime, justiça e trânsito em Campos dos Goytacazes e no Norte Fluminense.">
+<meta property="og:title" content="PautaRJ Notícias">
+<meta property="og:description" content="Polícia, crime, justiça e trânsito em Campos dos Goytacazes e região.">
+<meta property="og:image" content="compartilhar.png">
+<link rel="icon" href="icone.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#111214; --ink2:#2a2c31; --muted:#6b6f78; --line:#e4e4e7;
+  --paper:#fafaf9; --card:#fff; --red:#d7141f; --red-d:#a50e17;
+  --amber:#f5b301; --blue:#1d4ed8;
+  --head:'Barlow Condensed',Impact,sans-serif; --ui:'Inter',system-ui,sans-serif; --serif:'Source Serif 4',Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--ui);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+.wrap{max-width:1200px;margin:0 auto;padding:0 16px}
+
+/* demo strip */
+.demo{background:#fff4d6;color:#6b4e00;font-size:12px;text-align:center;padding:6px 12px;border-bottom:1px solid #f1dfa6}
+
+/* top bar */
+.topbar{background:var(--ink);color:#c9cbd1;font-size:12px}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:32px;gap:12px}
+.topbar .date::first-letter{text-transform:uppercase}
+.topbar .emerg{display:flex;gap:14px}
+.topbar .emerg b{color:#fff}
+
+/* header */
+header.mast{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+.mast .wrap{display:flex;align-items:center;gap:16px;height:64px}
+.logo{display:flex;align-items:center;gap:8px;font-family:var(--head);font-weight:800;font-size:34px;letter-spacing:-.5px;line-height:1}
+.logo .mark{width:34px;height:34px;background:var(--red);border-radius:6px;display:grid;place-items:center;color:#fff;font-size:22px;transform:skew(-6deg)}
+.logo .rj{color:var(--red)}
+.search{flex:1;max-width:380px;margin-left:auto;position:relative}
+.search input{width:100%;height:40px;border:1px solid var(--line);border-radius:999px;padding:0 16px 0 40px;font:inherit;font-size:14px;background:var(--paper);outline:none}
+.search input:focus{border-color:var(--ink);background:#fff}
+.search svg{position:absolute;left:14px;top:12px;width:16px;height:16px;color:var(--muted)}
+.live-btn{display:flex;align-items:center;gap:8px;background:var(--red);color:#fff;font-weight:700;font-size:13px;padding:10px 14px;border-radius:999px;white-space:nowrap}
+.dot{width:8px;height:8px;border-radius:50%;background:#fff;animation:pulse 1.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.8)}70%{box-shadow:0 0 0 8px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
+
+/* nav */
+nav.cats{background:#fff;border-bottom:3px solid var(--ink)}
+nav.cats .wrap{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+nav.cats .wrap::-webkit-scrollbar{display:none}
+.cat-btn{font-family:var(--head);font-weight:700;font-size:17px;text-transform:uppercase;letter-spacing:.4px;padding:12px 14px;white-space:nowrap;color:var(--ink2);border-bottom:3px solid transparent;margin-bottom:-3px}
+.cat-btn:hover{color:var(--red)}
+.cat-btn.on{color:var(--red);border-bottom-color:var(--red)}
+
+/* ticker */
+.ticker{background:var(--red);color:#fff;overflow:hidden}
+.ticker .wrap{display:flex;align-items:center;height:40px;gap:12px}
+.tk-label{font-family:var(--head);font-weight:800;font-size:16px;background:#fff;color:var(--red);padding:3px 10px;border-radius:3px;white-space:nowrap;text-transform:uppercase}
+.tk-track{overflow:hidden;flex:1;mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
+.tk-move{display:inline-flex;gap:40px;white-space:nowrap;animation:scroll 50s linear infinite;font-size:14px;font-weight:500}
+.tk-move span b{opacity:.75;margin-right:6px}
+.ticker:hover .tk-move{animation-play-state:paused}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* zone filter */
+.zones{display:flex;gap:8px;flex-wrap:wrap;padding:18px 0 4px;align-items:center}
+.zones .lbl{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-right:4px}
+.chip{font-size:13px;font-weight:600;padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:#fff}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* layout */
+main{padding-bottom:40px}
+.grid-top{display:grid;grid-template-columns:2fr 1fr;gap:24px;margin-top:16px}
+.section-h{display:flex;align-items:center;gap:10px;margin:32px 0 14px}
+.section-h h2{font-family:var(--head);font-weight:800;font-size:26px;text-transform:uppercase;letter-spacing:.3px}
+.section-h::after{content:"";flex:1;height:2px;background:var(--ink)}
+.section-h .bar{width:6px;height:24px;background:var(--red)}
+
+.tag{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--red)}
+.tag.light{color:#fff;background:var(--red);padding:3px 8px;border-radius:2px}
+.meta{font-size:12px;color:var(--muted);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.meta .sep{width:3px;height:3px;border-radius:50%;background:currentColor}
+
+.thumb{position:relative;overflow:hidden;background:#222;border-radius:6px}
+.thumb svg{display:block;width:100%;height:100%}
+.thumb img{display:block;width:100%;height:100%;object-fit:cover}
+
+/* hero */
+.hero{position:relative;border-radius:8px;overflow:hidden;cursor:pointer;height:clamp(400px,46vw,560px);align-self:start;display:flex;align-items:flex-end;color:#fff}
+.hero .thumb{position:absolute;inset:0;border-radius:0}
+.hero .thumb svg g{transform:translate(100px,10px) scale(.45);opacity:.45}
+.hero .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 25%,rgba(0,0,0,.88) 100%)}
+.hero .txt{position:relative;padding:28px}
+.hero h1{font-family:var(--head);font-weight:800;font-size:46px;line-height:1;margin:10px 0 10px;letter-spacing:-.2px}
+.hero p{font-family:var(--serif);font-size:18px;line-height:1.45;opacity:.92;max-width:640px}
+.hero .meta{color:#d4d4d8;margin-top:12px}
+.hero:hover h1{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+
+/* side stack */
+.grid-top>*{min-width:0}
+.hero.story{display:block;width:100%;cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:pan-y}
+.story .track{display:flex;width:100%;height:100%;transition:transform .45s cubic-bezier(.4,0,.2,1)}
+.story .sl{position:relative;flex:0 0 100%;height:100%;display:flex;align-items:flex-end;overflow:hidden}
+.story .sl .thumb{position:absolute;inset:0;border-radius:0}
+.story .sl .thumb svg g{transform:translate(100px,10px) scale(.45);opacity:.45}
+.story .sl .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,0) 18%,rgba(0,0,0,0) 30%,rgba(0,0,0,.9) 100%)}
+.story .sl .txt{position:relative;padding:28px 28px 26px}
+.story h1{font-family:var(--head);font-weight:800;font-size:46px;line-height:1;margin:10px 0}
+.story p{font-family:var(--serif);font-size:18px;line-height:1.45;opacity:.92;max-width:640px}
+.story .meta{color:#d4d4d8;margin-top:12px}
+.story .ler{display:inline-block;margin-top:14px;font-size:13px;font-weight:700;background:#fff;color:var(--ink);padding:8px 14px;border-radius:999px}
+.story .bars{position:absolute;top:12px;left:12px;right:12px;display:flex;gap:5px;z-index:3}
+.story .bars i{flex:1;height:3px;background:rgba(255,255,255,.35);border-radius:3px;overflow:hidden}
+.story .bars b{display:block;height:100%;width:0;background:#fff}
+.story .ad{background:#0b0b0d;align-items:center;justify-content:center}
+.story .adbg{position:absolute;inset:0;background:radial-gradient(120% 80% at 80% 0%,rgba(215,20,31,.55),transparent 60%),repeating-linear-gradient(45deg,#111214 0 14px,#16171a 14px 28px)}
+.story .adimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.story .pub{position:absolute;top:26px;right:14px;z-index:2;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#fff;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.35);padding:3px 8px;border-radius:3px}
+.story .adtxt{position:relative;text-align:center;padding:28px;max-width:520px}
+.story .adlogo{display:inline-flex;align-items:center;gap:8px;font-family:var(--head);font-weight:800;font-size:26px;color:#fff;margin-bottom:18px}
+.story .adlogo .mark{width:28px;height:28px;font-size:18px;background:var(--red);border-radius:5px;display:grid;place-items:center;transform:skew(-6deg)}
+.story .adlogo .rj{color:#ff3b45}
+.story .adtxt h2{font-family:var(--head);font-weight:800;font-size:56px;line-height:.95;text-transform:uppercase;color:#fff}
+.story .adtxt p{color:#d4d4d8;margin:14px auto 22px;font-family:var(--ui);font-size:16px}
+.story .adcta{display:inline-block;background:var(--red);color:#fff;font-weight:800;font-size:15px;padding:12px 22px;border-radius:999px}
+@media (max-width:640px){.story h1{font-size:32px}.story p{font-size:15px}.story .sl .txt{padding:20px 18px 18px}.story .adtxt h2{font-size:44px}}
+@media (hover:none){.hero:hover h1{text-decoration:none}}
+.story:hover h1{text-decoration:none}
+/* leitura: foto em cima, texto sempre sobre fundo escuro sólido */
+.hero{background:#0b0b0d}
+.hero .thumb,.story .sl .thumb{top:0;left:0;right:0;bottom:auto;height:52%}
+.hero .shade,.story .sl .shade{background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,0) 14%,rgba(11,11,13,0) 30%,rgba(11,11,13,.85) 44%,#0b0b0d 52%,#0b0b0d 100%)}
+.story .sl{background:#0b0b0d}
+.hero h1,.story h1{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;text-shadow:0 2px 10px rgba(0,0,0,.6)}
+.hero p,.story p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+@media (max-width:640px){.hero,.hero.story{height:580px}.story h1,.hero h1{font-size:31px}}
+.story .adtxt p{display:block;-webkit-line-clamp:unset;overflow:visible}
+.logo .lw{display:inline-flex;align-items:baseline;gap:0}
+.logo .nt{font-family:var(--ui);font-size:.32em;font-weight:800;letter-spacing:1.5px;color:#9ca3af;margin-left:7px;align-self:center}
+footer .logo .nt{color:#a1a1aa}
+.leftcol{display:flex;flex-direction:column;gap:20px;min-width:0}
+.stack{display:flex;flex-direction:column;gap:16px}
+.mini{display:grid;grid-template-columns:110px 1fr;gap:12px;cursor:pointer;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.mini:last-child{border-bottom:0}
+.mini .thumb{aspect-ratio:1/1}
+.mini h3{font-family:var(--head);font-weight:700;font-size:21px;line-height:1.05;margin:4px 0 6px}
+.mini:hover h3{color:var(--red)}
+
+/* plantao */
+.plantao{background:var(--ink);color:#fff;border-radius:8px;padding:18px}
+.plantao h4{font-family:var(--head);font-size:22px;text-transform:uppercase;display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.plantao h4 .dot{background:var(--red)}
+.pl-item{display:grid;grid-template-columns:52px 1fr;gap:10px;padding:10px 0;border-top:1px solid #2f3137;cursor:pointer}
+.pl-item time{font-family:var(--head);font-weight:700;font-size:18px;color:var(--amber)}
+.pl-item p{font-size:14px;line-height:1.35;color:#e4e4e7}
+.pl-item:hover p{color:#fff;text-decoration:underline}
+
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.card{cursor:pointer;display:flex;flex-direction:column;gap:8px}
+.card .thumb{aspect-ratio:16/10}
+.card h3{font-family:var(--head);font-weight:700;font-size:22px;line-height:1.05}
+.card p{font-size:14px;color:var(--ink2);line-height:1.45}
+.card:hover h3{color:var(--red)}
+.empty{grid-column:1/-1;padding:40px;text-align:center;color:var(--muted);background:#fff;border:1px dashed var(--line);border-radius:8px}
+
+/* lower */
+.lower{display:grid;grid-template-columns:2fr 1fr;gap:24px}
+.list-item{display:grid;grid-template-columns:220px 1fr;gap:18px;padding:18px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.list-item .thumb{aspect-ratio:16/10}
+.list-item h3{font-family:var(--head);font-weight:700;font-size:26px;line-height:1.02;margin:6px 0 8px}
+.list-item p{font-family:var(--serif);font-size:16px;line-height:1.45;color:var(--ink2)}
+.list-item:hover h3{color:var(--red)}
+
+.box{background:#fff;border:1px solid var(--line);border-radius:8px;padding:18px;margin-bottom:20px}
+.box h4{font-family:var(--head);font-weight:800;font-size:22px;text-transform:uppercase;margin-bottom:12px}
+.rank{display:grid;grid-template-columns:36px 1fr;gap:8px;padding:10px 0;border-top:1px solid var(--line);cursor:pointer}
+.rank:first-of-type{border-top:0}
+.rank .n{font-family:var(--head);font-weight:800;font-size:34px;line-height:.9;color:var(--red)}
+.rank p{font-weight:600;font-size:14px;line-height:1.3}
+.rank:hover p{text-decoration:underline}
+
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:var(--paper);border-radius:6px;padding:12px}
+.stat b{display:block;font-family:var(--head);font-size:30px;line-height:1}
+.stat span{font-size:12px;color:var(--muted)}
+.stat .up{color:var(--red)} .stat .down{color:#15803d}
+.note{font-size:11px;color:var(--muted);margin-top:10px}
+
+.denuncia{background:var(--red);color:#fff;border-radius:8px;padding:20px;margin-bottom:20px}
+.denuncia h4{font-family:var(--head);font-size:26px;text-transform:uppercase;line-height:1}
+.denuncia p{font-size:14px;margin:8px 0 14px;opacity:.95;line-height:1.4}
+.denuncia .num{font-family:var(--head);font-weight:800;font-size:40px;letter-spacing:.5px}
+.denuncia small{display:block;font-size:12px;opacity:.85}
+
+.news{background:var(--ink);color:#fff;border-radius:8px;padding:18px}
+.news h4{font-family:var(--head);font-size:22px;text-transform:uppercase}
+.news p{font-size:13px;color:#c9cbd1;margin:6px 0 12px}
+.news form{display:flex;gap:8px}
+.news input{flex:1;min-width:0;height:40px;border-radius:6px;border:0;padding:0 12px;font:inherit;font-size:14px}
+.news button{background:var(--red);color:#fff;font-weight:700;padding:0 14px;border-radius:6px;font-size:14px}
+.news .ok{font-size:13px;color:var(--amber);margin-top:8px;display:none}
+
+/* footer */
+footer{background:var(--ink);color:#a1a1aa;margin-top:40px;padding:36px 0 24px;font-size:13px}
+footer .cols{display:grid;grid-template-columns:2fr 1fr 1fr;gap:24px}
+footer .logo{color:#fff;font-size:30px;margin-bottom:10px}
+footer h5{color:#fff;font-size:13px;text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+footer li{list-style:none;margin:6px 0}
+footer li button:hover,footer li a:hover{color:#fff}
+footer .cols>div:first-child p{max-width:420px;line-height:1.55}
+footer li b{color:#fff;font-weight:600}
+footer .bottom{border-top:1px solid #2f3137;margin-top:24px;padding-top:16px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+
+/* reader */
+.reader{position:fixed;inset:0;background:rgba(10,10,12,.6);z-index:60;display:none;overflow-y:auto;backdrop-filter:blur(2px)}
+.reader.open{display:block}
+.reader article{background:#fff;max-width:760px;margin:32px auto;border-radius:10px;overflow:hidden;position:relative}
+.reader .thumb{aspect-ratio:16/8;border-radius:0}
+.reader .in{padding:28px 32px 36px}
+.reader h1{font-family:var(--head);font-weight:800;font-size:44px;line-height:1;margin:10px 0 12px}
+.reader .sub{font-family:var(--serif);font-size:20px;line-height:1.45;color:var(--ink2);margin-bottom:14px}
+.reader .byline{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:22px}
+.reader .body p{font-family:var(--serif);font-size:19px;line-height:1.65;margin-bottom:18px;color:#1f2126}
+.reader .body blockquote{border-left:4px solid var(--red);padding:4px 0 4px 16px;font-family:var(--serif);font-style:italic;font-size:20px;margin:0 0 18px;color:var(--ink2)}
+.cap{font-size:11px;color:var(--muted);padding:6px 32px 0;text-align:right}
+.credit{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--ink2);margin-top:4px}
+.credit a{color:var(--red);font-weight:600}
+.close{position:absolute;top:12px;right:12px;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;font-size:22px;display:grid;place-items:center;z-index:2}
+.share{display:flex;gap:8px}
+.share button{font-size:12px;font-weight:600;border:1px solid var(--line);border-radius:999px;padding:6px 12px}
+.share button:hover{border-color:var(--ink)}
+.related{margin-top:26px;padding-top:18px;border-top:3px solid var(--ink)}
+.related h5{font-family:var(--head);font-size:20px;text-transform:uppercase;margin-bottom:10px}
+.related .mini{grid-template-columns:90px 1fr}
+.related .mini h3{font-size:19px}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:10px 16px;border-radius:999px;font-size:14px;opacity:0;transition:.25s;z-index:80;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media (max-width:960px){
+  .grid-top,.lower{grid-template-columns:1fr}
+  .cards{grid-template-columns:repeat(2,1fr)}
+  footer .cols{grid-template-columns:1fr 1fr;gap:28px 20px}
+  footer .cols>div:first-child{grid-column:1/-1}
+  footer .about{max-width:none}
+}
+@media (max-width:640px){
+  .topbar .emerg span:nth-child(n+2){display:none}
+  .mast .wrap{height:58px;gap:10px}
+  .logo{font-size:28px}.logo .mark{width:28px;height:28px;font-size:18px}
+  .search{display:none}
+  .search.mobile{display:block;max-width:none;margin:12px 0 0}
+  .live-btn{margin-left:auto;padding:8px 12px;font-size:12px}
+  .hero{height:420px}.hero h1{font-size:34px}.hero p{font-size:16px}.hero .txt{padding:20px}
+  .cards{grid-template-columns:1fr}
+  .list-item{grid-template-columns:110px 1fr;gap:12px}
+  .list-item h3{font-size:20px}.list-item p{display:none}
+  .reader article{margin:0;border-radius:0;min-height:100%}
+  .reader .in{padding:20px 18px 30px}.reader h1{font-size:34px}.reader .sub{font-size:18px}.reader .body p{font-size:18px}
+}
+.search.mobile{display:none}
+@media (max-width:640px){.search.mobile{display:block}}
+</style>
+</head>
+<body>
+
+
+
+<header class="mast">
+  <div class="wrap">
+    <a class="logo" href="#inicio" aria-label="PautaRJ Notícias, início"><span class="mark">P</span><span class="lw">Pauta<span class="rj">RJ</span><small class="nt">NOTÍCIAS</small></span></a>
+    <label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" type="search" placeholder="Buscar bairro de Campos, caso, assunto…"></label>
+    <button class="live-btn" id="liveBtn"><span class="dot"></span>PLANTÃO AO VIVO</button>
+  </div>
+</header>
+
+
+
+<div class="ticker"><div class="wrap"><span class="tk-label">Urgente</span><div class="tk-track"><div class="tk-move" id="tk"></div></div></div></div>
+
+<main class="wrap">
+  <label class="search mobile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q2" type="search" placeholder="Buscar bairro de Campos, caso, assunto…"></label>
+
+  
+
+  <section class="grid-top" id="top"></section>
+
+  <div class="section-h"><span class="bar"></span><h2 id="secTitle">Últimas notícias</h2></div>
+  <section class="cards" id="cards"></section>
+
+  <div class="section-h"><span class="bar"></span><h2>Investigação &amp; Justiça</h2></div>
+  <section class="lower">
+    <div id="list"></div>
+    <aside>
+      <div class="denuncia">
+        <h4>Viu algo? Denuncie.</h4>
+        <p>O anonimato é garantido. Informações podem ajudar a polícia a resolver casos.</p>
+        <div class="num">(21) 2253-1177</div>
+        <small>Disque-Denúncia · Emergência: 190</small>
+      </div>
+      <div class="box">
+        <h4>Destaques</h4>
+        <div id="rank"></div>
+      </div>
+            <div class="news">
+        <h4>Boletim PautaRJ</h4>
+        <p>As principais ocorrências do dia no seu e-mail, às 7h.</p>
+        <form id="nl"><input type="email" placeholder="seu@email.com" required><button>Assinar</button></form>
+        <div class="ok" id="nlok">Pronto! Você vai receber o boletim (demonstração).</div>
+      </div>
+    </aside>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <div class="logo"><span class="mark">P</span><span class="lw">Pauta<span class="rj">RJ</span><small class="nt">NOTÍCIAS</small></span></div>
+        <p>Jornalismo de segurança pública em Campos dos Goytacazes e no Norte Fluminense: polícia, crime, justiça e o dia a dia das ruas, com apuração e responsabilidade.</p>
+      </div>
+      <div><h5>Editorias</h5><ul id="fcats"></ul></div>
+      
+      
+      <div><h5>Utilidade</h5><ul><li>Polícia <b>190</b></li><li>Bombeiros <b>193</b></li><li>Samu <b>192</b></li><li>Defesa Civil <b>199</b></li></ul></div>
+    </div>
+    <div class="bottom"><span>© <span id="yr"></span> PautaRJ Notícias. Todos os direitos reservados.</span><span>Expediente · Política editorial · Fale com a redação</span></div>
+  </div>
+</footer>
+
+<div class="reader" id="reader" role="dialog" aria-modal="true"><article id="art"></article></div>
+<div class="toast" id="toast"></div>
+
+<script src="noticias.js"></script>
+<script>
+const CATS = [
+  {id:'todas', name:'Início'},
+  {id:'policia', name:'Polícia', color:'#1d4ed8'},
+  {id:'crime', name:'Crime', color:'#d7141f'},
+  {id:'operacoes', name:'Operações', color:'#0f766e'},
+  {id:'justica', name:'Justiça', color:'#7c3aed'},
+  {id:'transito', name:'Trânsito', color:'#ea580c'},
+  {id:'cidade', name:'Cidade', color:'#475569'}
+];
+const ZONES = ['Todas','Centro','Guarus','Outros bairros','São João da Barra','Região dos Lagos','Noroeste Fluminense'];
+const ICONS = {
+  policia:'<path d="M50 14 78 24v20c0 18-12 31-28 38C34 75 22 62 22 44V24z" fill="none" stroke="#fff" stroke-width="5" opacity=".9"/><path d="m50 34 5 10 11 1-8 7 2 11-10-6-10 6 2-11-8-7 11-1z" fill="#fff" opacity=".9"/>',
+  crime:'<rect x="18" y="38" width="64" height="12" fill="#f5b301" transform="rotate(-12 50 44)"/><text x="50" y="47" font-family="Barlow Condensed" font-weight="800" font-size="9" text-anchor="middle" fill="#111" transform="rotate(-12 50 44)">NÃO ULTRAPASSE · NÃO ULTRAPASSE</text><circle cx="50" cy="64" r="8" fill="none" stroke="#fff" stroke-width="4" opacity=".85"/>',
+  operacoes:'<circle cx="50" cy="48" r="22" fill="none" stroke="#fff" stroke-width="4" opacity=".85"/><circle cx="50" cy="48" r="4" fill="#fff"/><path d="M50 18v14M50 64v14M20 48h14M66 48h14" stroke="#fff" stroke-width="4" opacity=".85"/>',
+  justica:'<path d="M50 20v54M34 74h32M24 32h52" stroke="#fff" stroke-width="4" opacity=".9"/><path d="m24 32-10 20h20zm52 0-10 20h20z" fill="none" stroke="#fff" stroke-width="3.5" opacity=".9"/>',
+  transito:'<rect x="40" y="16" width="20" height="56" rx="6" fill="none" stroke="#fff" stroke-width="4" opacity=".9"/><circle cx="50" cy="28" r="5" fill="#ef4444"/><circle cx="50" cy="44" r="5" fill="#f5b301"/><circle cx="50" cy="60" r="5" fill="#22c55e"/>',
+  cidade:'<path d="M16 76V50h12V36h14v40M46 76V26h16v50M66 76V44h18v32" fill="none" stroke="#fff" stroke-width="4" opacity=".85"/>'
+};
+const catOf = id => CATS.find(c=>c.id===id);
+let gid=0;
+function thumb(a){
+  if(a.img) return `<div class="thumb"><img src="fotos/${a.img}" alt="" loading="lazy"></div>`;
+  const c = catOf(a.cat).color, g='g'+(gid++);
+  return `<div class="thumb"><svg viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs><linearGradient id="${g}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${c}"/><stop offset="1" stop-color="#0b0b0d"/></linearGradient>
+    <pattern id="p${g}" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="2" height="8" fill="#fff" opacity=".06"/></pattern></defs>
+    <rect width="160" height="100" fill="url(#${g})"/><rect width="160" height="100" fill="url(#p${g})"/>
+    <g transform="translate(30 0)">${ICONS[a.cat]}</g></svg></div>`;
+}
+const T = a => new Date(a.dt + (a.noTime?'T12:00':'') + ':00-03:00').getTime();
+const dmy = a => { const [y,m,d]=a.dt.slice(0,10).split('-'); return `${d}/${m}`; };
+const hm = a => a.noTime ? '' : a.dt.slice(11,16).replace(':','h');
+function when(a){
+  const diff = (Date.now()-T(a))/60000;
+  if(!a.noTime && diff>=0 && diff<60) return `há ${Math.max(1,Math.round(diff))} min`;
+  if(!a.noTime && diff>=0 && diff<720) return `há ${Math.floor(diff/60)}h`;
+  return a.noTime ? dmy(a) : `${dmy(a)} · ${hm(a)}`;
+}
+const meta = a => `<div class="meta"><span>${a.bairro}</span><span class="sep"></span><span>${when(a)}</span></div>`;
+const srcNames = a => a.src.map(k=>SRC[k].n).concat(a.extra?[a.extra]:[]);
+const byTime = (x,y)=>T(y)-T(x);
+A.sort(byTime);
+
+let state = {cat:'todas', zona:'Todas', q:''};
+
+function filtered(){
+  const q = state.q.trim().toLowerCase();
+  return A.filter(a => (state.cat==='todas'||a.cat===state.cat) && (state.zona==='Todas'||a.zona===state.zona)
+    && (!q || (a.h+a.s+a.bairro+a.zona+catOf(a.cat).name).toLowerCase().includes(q)));
+}
+
+
+function heroHTML(hero){
+  return `<div class="hero" data-id="${hero.id}">${thumb(hero)}<div class="shade"></div>
+      <div class="txt"><span class="tag light">${catOf(hero.cat).name}</span><h1>${hero.h}</h1><p>${hero.s}</p>
+      <div class="meta"><span>${hero.bairro}</span><span class="sep"></span><span>${when(hero)}</span></div></div></div>`;
+}
+/* ---------- Destaques em formato story: 3 matérias + 1 anúncio (2ª posição) ---------- */
+const AD = (typeof ANUNCIO!=='undefined' && ANUNCIO) || {tit:'Anuncie aqui', txt:'Sua marca para quem acompanha polícia, crime e segurança em Campos e região.', cta:'Quero anunciar', img:'', link:''};
+function featured(list, hero){
+  const fixed = (typeof DESTAQUES!=='undefined' ? DESTAQUES : []).map(id=>list.find(a=>a.id===id)).filter(Boolean);
+  const out = fixed.length ? fixed.slice(0,3) : [hero];
+  for(const a of list){ if(out.length>=3) break; if(!out.includes(a) && a.img) out.push(a); }
+  for(const a of list){ if(out.length>=3) break; if(!out.includes(a)) out.push(a); }
+  return out;
+}
+let ST={slides:[],i:0,t0:0,raf:0,paused:false,el:null};
+const DUR=6000;
+function storyHTML(feat){
+  ST.slides=[feat[0],{ad:true},...feat.slice(1)].filter(Boolean);
+  const sl=ST.slides.map(x=>x.ad?adSlide():`<div class="sl" data-sid="${x.id}">${thumb(x)}<div class="shade"></div>
+      <div class="txt"><span class="tag light">${catOf(x.cat).name}</span><h1>${x.h}</h1><p>${x.s}</p>
+      <div class="meta"><span>${x.bairro}</span><span class="sep"></span><span>${when(x)}</span></div>
+      <span class="ler">Ler matéria →</span></div></div>`).join('');
+  return `<div class="hero story" id="story" aria-roledescription="carrossel">
+    <div class="track">${sl}</div>
+    <div class="bars">${ST.slides.map(()=>'<i><b></b></i>').join('')}</div>
+  </div>`;
+}
+function adSlide(){
+  if(AD.img) return `<div class="sl ad" data-ad="1"><img class="adimg" src="${AD.img}" alt="${AD.tit||'Publicidade'}"><span class="pub">Publicidade</span></div>`;
+  return `<div class="sl ad" data-ad="1"><div class="adbg"></div><span class="pub">Publicidade</span>
+    <div class="adtxt"><div class="adlogo"><span class="mark">P</span>Pauta<span class="rj">RJ</span></div>
+    <h2>${AD.tit}</h2><p>${AD.txt}</p><span class="adcta">${AD.cta}</span></div></div>`;
+}
+function stopStory(){cancelAnimationFrame(ST.raf);ST.el=null;}
+function startStory(){
+  cancelAnimationFrame(ST.raf);
+  ST.el=document.getElementById('story'); if(!ST.el) return;
+  ST.i=Math.min(ST.i,ST.slides.length-1); go(ST.i,true);
+  const el=ST.el; let x0=null,y0=null,moved=false,downT=0;
+  el.addEventListener('pointerdown',e=>{x0=e.clientX;y0=e.clientY;moved=false;downT=Date.now();ST.paused=true;});
+  el.addEventListener('pointermove',e=>{if(x0!==null&&Math.abs(e.clientX-x0)>10)moved=true;});
+  const up=e=>{
+    if(x0===null)return; const dx=e.clientX-x0, dy=e.clientY-y0; x0=null; ST.paused=false; ST.t0=performance.now()-ST.elapsed;
+    if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){go(ST.i+(dx<0?1:-1));return;}
+    if(moved||Date.now()-downT>500)return; // segurou: só pausou
+    const r=el.getBoundingClientRect(), px=(e.clientX-r.left)/r.width;
+    if(px<.3) go(ST.i-1); else if(px>.7) go(ST.i+1);
+    else{const s=ST.slides[ST.i]; if(s.ad){ if(AD.link) window.open(AD.link,'_blank'); else toast('Para anunciar, fale com a redação do PautaRJ.'); } else openArticle(s.id);}
+  };
+  el.addEventListener('pointerup',up); el.addEventListener('pointercancel',()=>{x0=null;ST.paused=false;ST.t0=performance.now()-ST.elapsed;});
+  el.addEventListener('mouseenter',()=>{ST.hover=true;}); el.addEventListener('mouseleave',()=>{ST.hover=false;ST.t0=performance.now()-ST.elapsed;});
+  el.addEventListener('click',e=>e.stopPropagation());
+  ST.t0=performance.now(); ST.elapsed=0; tick();
+}
+function go(n,silent){
+  const N=ST.slides.length; ST.i=(n+N)%N; ST.t0=performance.now(); ST.elapsed=0;
+  if(!ST.el)return;
+  ST.el.querySelector('.track').style.transform=`translateX(-${ST.i*100}%)`;
+  ST.el.querySelectorAll('.bars b').forEach((b,k)=>{b.style.width=k<ST.i?'100%':'0%';});
+}
+function tick(){
+  if(!ST.el||!document.body.contains(ST.el))return;
+  const reader=document.getElementById('reader').classList.contains('open');
+  if(ST.paused||ST.hover||reader||document.hidden){ST.t0=performance.now()-ST.elapsed;}
+  else{ST.elapsed=performance.now()-ST.t0; if(ST.elapsed>=DUR){go(ST.i+1);}}
+  const b=ST.el.querySelectorAll('.bars b')[ST.i]; if(b) b.style.width=Math.min(100,ST.elapsed/DUR*100)+'%';
+  ST.raf=requestAnimationFrame(tick);
+}
+
+function render(){
+  const _c=document.getElementById('cats'); if(_c) _c.innerHTML = CATS.map(c=>`<button class="cat-btn ${state.cat===c.id?'on':''}" data-cat="${c.id}">${c.name}</button>`).join('');
+  const _z=document.getElementById('zones'); if(_z) _z.innerHTML = '<span class="lbl">Região</span>'+ZONES.map(z=>`<button class="chip ${state.zona===z?'on':''}" data-zona="${z}">${z}</button>`).join('');
+
+  const list = filtered();
+  const top = document.getElementById('top');
+  const cards = document.getElementById('cards');
+  const cname = state.cat==='todas'?'Últimas notícias':catOf(state.cat).name;
+  document.getElementById('secTitle').textContent = state.q ? `Resultados para “${state.q}”` : (state.zona!=='Todas'? `${cname} · ${state.zona}` : cname);
+
+  if(!list.length){
+    top.style.display='none';
+    cards.innerHTML = `<div class="empty">Nenhuma notícia encontrada para esse filtro.<br><button class="chip" style="margin-top:12px" data-reset>Limpar filtros</button></div>`;
+    return;
+  }
+  top.style.display='';
+  const hero = list.find(a=>a.hero) || list[0];
+  const showPl = state.cat==='todas'&&!state.q&&state.zona==='Todas';
+  const feat = showPl ? featured(list, hero) : [hero];
+  const rest = list.filter(a=>!feat.includes(a));
+  const side = rest.slice(0, showPl?5:3);
+  top.innerHTML = `
+    <div class="leftcol">
+    ${showPl ? storyHTML(feat) : heroHTML(hero)}
+      ${showPl ? `<div class="plantao" id="plantao"><h4><span class="dot"></span>Plantão</h4>${A.filter(a=>!a.noTime).slice(0,5).map(a=>`<div class="pl-item" data-id="${a.id}"><time>${a.dt.slice(11,16)}</time><p>${a.h}<br><small style="color:#9ca3af">${dmy(a)}</small></p></div>`).join('')}</div>`:''}
+    </div>
+    <div class="stack">
+      ${side.map(a=>`<div class="mini" data-id="${a.id}">${thumb(a)}<div><span class="tag">${catOf(a.cat).name}</span><h3>${a.h}</h3>${meta(a)}</div></div>`).join('')}
+    </div>`;
+  if(showPl) startStory(); else stopStory();
+  const used = side.length;
+  const grid = rest.slice(used,used+8);
+  cards.innerHTML = grid.length ? grid.map(a=>`<div class="card" data-id="${a.id}">${thumb(a)}<span class="tag">${catOf(a.cat).name}</span><h3>${a.h}</h3><p>${a.s}</p>${meta(a)}</div>`).join('')
+    : `<div class="empty">Sem mais notícias nesta seleção.</div>`;
+}
+
+function staticParts(){
+  const _t=document.getElementById('today'); if(_t) _t.textContent = new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) + ' · Campos dos Goytacazes, RJ';
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  const items = A.filter(a=>!a.noTime).slice(0,6).map(a=>`<span data-id="${a.id}" style="cursor:pointer"><b>${a.dt.slice(11,16)}</b>${a.h}</span>`).join('');
+  document.getElementById('tk').innerHTML = items+items;
+  document.getElementById('rank').innerHTML = A.filter(a=>a.dest).sort((x,y)=>x.dest-y.dest).map((a,i)=>`<div class="rank" data-id="${a.id}"><span class="n">${i+1}</span><p>${a.h}</p></div>`).join('');
+  const inv = A.filter(a=>a.cat==='justica'||a.cat==='crime').slice(0,5);
+  document.getElementById('list').innerHTML = inv.map(a=>`<div class="list-item" data-id="${a.id}">${thumb(a)}<div><span class="tag">${catOf(a.cat).name}</span><h3>${a.h}</h3><p>${a.s}</p>${meta(a)}</div></div>`).join('');
+  document.getElementById('fcats').innerHTML = CATS.slice(1).map(c=>`<li><button data-cat="${c.id}">${c.name}</button></li>`).join('');
+}
+
+function openArticle(id){
+  const a = A.find(x=>x.id==id); if(!a) return;
+  const rel = A.filter(x=>x.id!==a.id && (x.cat===a.cat||x.zona===a.zona)).slice(0,3);
+  const body = a.b.map(p=>`<p>${p}</p>`).join('');
+  const names = a.src.map(k=>`${SRC[k].p} ${SRC[k].n}`).concat(a.extra?[`do ${a.extra}`]:[]);
+  document.getElementById('art').innerHTML = `
+    <button class="close" data-close aria-label="Fechar">×</button>
+    ${thumb(a)}
+    <div class="cap">${a.foto?'Foto: '+a.foto:'Imagem ilustrativa'}</div>
+    <div class="in">
+      <span class="tag">${catOf(a.cat).name} · ${a.zona}</span>
+      <h1>${a.h}</h1>
+      <p class="sub">${a.s}</p>
+      <div class="byline"><div class="meta"><span>Redação PautaRJ</span><span class="sep"></span><span>${a.bairro}</span><span class="sep"></span><span>${a.noTime?dmy(a)+'/2026':dmy(a)+'/2026 às '+hm(a)}</span></div>
+        <div class="share"><button data-copy>Copiar título</button></div></div>
+      <div class="body">${body}</div>
+      <p class="credit">Com informações ${names.length>1?names.slice(0,-1).join(', ')+' e '+names.at(-1):names[0]}.</p>
+      ${rel.length?`<div class="related"><h5>Leia também</h5>${rel.map(r=>`<div class="mini" data-id="${r.id}">${thumb(r)}<div><span class="tag">${catOf(r.cat).name}</span><h3>${r.h}</h3>${meta(r)}</div></div>`).join('')}</div>`:''}
+    </div>`;
+  const rd=document.getElementById('reader'); rd.classList.add('open'); rd.scrollTop=0;
+  document.body.style.overflow='hidden';
+  document.getElementById('art').dataset.title = a.h;
+}
+function closeArticle(){document.getElementById('reader').classList.remove('open');document.body.style.overflow='';}
+function toast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1800);}
+
+document.addEventListener('click', e=>{
+  const t = e.target;
+  if(t.closest('a[href^="http"]')) return;
+  if(t.closest('[data-close]') || t.id==='reader'){closeArticle();return;}
+  if(t.closest('[data-copy]')){const p=navigator.clipboard?navigator.clipboard.writeText(document.getElementById('art').dataset.title):Promise.reject();p.then(()=>toast('Título copiado'),()=>toast('Não foi possível copiar'));return;}
+  if(t.closest('[data-reset]')){state={cat:'todas',zona:'Todas',q:''};document.getElementById('q').value='';document.getElementById('q2').value='';render();return;}
+  const c = t.closest('[data-cat]'); if(c){state.cat=c.dataset.cat;closeArticle();render();scrollTo({top:0,behavior:'smooth'});return;}
+  const z = t.closest('[data-zona]'); if(z){state.zona=z.dataset.zona;render();if(z.closest('footer'))scrollTo({top:0,behavior:'smooth'});return;}
+  const art = t.closest('[data-id]'); if(art){openArticle(art.dataset.id);return;}
+});
+document.getElementById('liveBtn').onclick=()=>{state={cat:'todas',zona:'Todas',q:''};render();setTimeout(()=>document.getElementById('plantao')?.scrollIntoView({behavior:'smooth',block:'center'}),50);};
+['q','q2'].forEach(id=>document.getElementById(id).addEventListener('input',e=>{state.q=e.target.value;render();}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeArticle();});
+document.getElementById('nl').addEventListener('submit',e=>{e.preventDefault();document.getElementById('nlok').style.display='block';e.target.reset();});
+
+staticParts(); render();
+</script>
+</body>
+</html>
